@@ -11,6 +11,8 @@ timeout=60
 ansible_user=ec2-user
 ansible_become=yes
 
+os_firewall_use_firewalld=True
+
 ###########################################################################
 ### OpenShift Basic Vars
 ###########################################################################
@@ -24,14 +26,18 @@ openshift_disable_check="disk_availability,memory_availability,docker_image_avai
 # If openshift_image_tag is set, its value is used for all hosts in system container environments, even those that have another version installed. If
 # Use this variable to specify a container image tag to install or configure.
 #openshift_pkg_version is set, its value is used for all hosts in RPM-based environments, even those that have another version installed.
-openshift_image_tag=
+##openshift_image_tag=
 # Use this variable to specify an RPM version to install or configure.
-openshift_pkg_version=
-openshift_release=
+##openshift_pkg_version=
+##openshift_release=
+
+openshift_image_tag=v3.11.16
+openshift_release=3.11.16
+openshift_pkg_version=-3.11.16
 
 
 # Node Groups
-openshift_node_groups=
+openshift_node_groups=node-config-compute
 # Configure node kubelet arguments. pods-per-core is valid in OpenShift Origin 1.3 or OpenShift Container Platform 3.3 and later. -> These  need to go into the above
 # openshift_node_kubelet_args={'pods-per-core': ['10'], 'max-pods': ['250'], 'image-gc-high-threshold': ['85'], 'image-gc-low-threshold': ['75']}
 
@@ -40,39 +46,39 @@ openshift_node_groups=
 logrotate_scripts=[{"name": "syslog", "path": "/var/log/cron\n/var/log/maillog\n/var/log/messages\n/var/log/secure\n/var/log/spooler\n", "options": ["daily", "rotate 7","size 500M", "compress", "sharedscripts", "missingok"], "scripts": {"postrotate": "/bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true"}}]
 
 # Deploy Operator Lifecycle Manager Tech Preview
-openshift_enable_olm=
+openshift_enable_olm=false
 
 ###########################################################################
 ### OpenShift Registries Locations
 ###########################################################################
 
-#oreg_url=registry.access.redhat.com/openshift3/ose-${component}:${version}
-oreg_url=
-oreg_auth_user=
-oreg_auth_password=
+oreg_url=registry.access.redhat.com/openshift3/ose-${component}:${version}
+#oreg_url=registry.redhat.io
+oreg_auth_user=5996273|mipam
+oreg_auth_password=eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIwYWNiYTg5OGUyMTY0ZGQyOTEzZWFjMTAwYWUyMDBlOCJ9.aAkKvR_NRShgXusrCAEq5ermrle7GwimIwy7cAUjdCEf3BjBSZauxx-pBwVGF59E3MNt3pzMCmKSzUy-2sAPYVN7vn2jKr0Pyd3x4i_kNFJ4Hq7eoNWpIYHwsD8L1xvdwJmMpK5JoHJN4knCG6Olra3yRlIU5ial3LnDQTwgRdPenuZa1VecrNpXvrU3QjNCE1F1Q2WHv2EnQxZZNR3K62MYFJNS6sLaCk2ncCjoriylS6J0c8Vce6cL4RaM8K7C3oGTDa8qOELpg5Iix_zLVqcw6tvQYvAq9i1agdExfNEezXL9ldfBrbDHCwPgwBt6fzWyM0zlWz4JdRUD0ZE7KW0DngMIuMY2HPyTHDLlFCwFFxjeyLR6MbiVSqnSTiajwry0Mnqm9C7BuvdLhpgj8as-Ukeqgbm2TTMV6hQINeB9ca-3kW-ZxDpIKThh3cMshQisVypu91l-PsDDTyebOF9GzfJFsTAYqSebWo8S0A4usRL4JHZWxsqLEF4nZQuckY9TRbdpI2OJfQN12f5j97U1MfMO2MGneXyRsM3pPyWwcE8sqqiKqay5lq7Hcc6eoFHUIjrgMB21SCuOZKooDZYlER0QorYAjv_a2HSyBGJ3wHVVV1YJDDZuBDFgYHRxnyxf_4nU2u3jJF6SDV0voskJUW2hKgUKaowphZzk5gg
 
 # For Operator Framework Images
-openshift_additional_registry_credentials=
+openshift_additional_registry_credentials=true
 
-openshift_examples_modify_imagestreams=
+openshift_examples_modify_imagestreams=true
 
 
 # Set this line to enable NFS
-openshift_enable_unsupported_configurations=
+openshift_enable_unsupported_configurations=True
 
 ###########################################################################
 ### OpenShift Master Vars
 ###########################################################################
 
-openshift_master_api_port=
-openshift_master_console_port=
+openshift_master_api_port=8443
+openshift_master_console_port=8443
 
 #Default:  openshift_master_cluster_method=native
-openshift_master_cluster_hostname=
-openshift_master_cluster_public_hostname=
-openshift_master_default_subdomain=
+openshift_master_cluster_hostname=master1.fb4c.example.opentlc.com
+openshift_master_cluster_public_hostname=loadbalancer.fb4c.example.opentlc.com
+openshift_master_default_subdomain=apps.fb4c.example.opentlc.com
 #openshift_master_ca_certificate=
-openshift_master_overwrite_named_certificates=
+openshift_master_overwrite_named_certificates=false
 
 # Audit log
 # openshift_master_audit_config={"enabled": true, "auditFilePath": "/var/log/openpaas-oscp-audit/openpaas-oscp-audit.log", "maximumFileRetentionDays": 14, "maximumFileSizeMegabytes": 500, "maximumRetainedFiles": 5}
@@ -109,7 +115,7 @@ openshift_master_identity_providers=[{'name': 'ldap', 'challenge': 'true', 'logi
 
 # LDAP and HTPASSWD dependencies
 
-openshift_master_htpasswd_file=/root/htpasswd.openshift
+#openshift_master_htpasswd_file=/root/htpasswd.openshift
 openshift_master_ldap_ca_file=/root/ipa-ca.crt
 
 
@@ -121,27 +127,34 @@ openshift_master_ldap_ca_file=/root/ipa-ca.crt
 # Prometheus Metrics
 #########################
 
-openshift_hosted_prometheus_deploy=
-openshift_prometheus_namespace=
-openshift_prometheus_node_selector=
+openshift_hosted_prometheus_deploy={"role":"infra"}
+openshift_prometheus_namespace={"role":"infra"}
+openshift_prometheus_node_selector={"role":"infra"}
 
-openshift_cluster_monitoring_operator_install=
+openshift_cluster_monitoring_operator_install=false
 
 
 ########################
 # Cluster Metrics
 ########################
 
-openshift_metrics_install_metrics=
+openshift_metrics_install_metrics=true
 
-openshift_metrics_storage_kind=
-openshift_metrics_storage_access_modes=
-openshift_metrics_storage_nfs_directory=
-openshift_metrics_storage_nfs_options=
-openshift_metrics_storage_volume_name=
-openshift_metrics_storage_volume_size=
-openshift_metrics_storage_labels=
-openshift_metrics_cassandra_pvc_storage_class_name=
+openshift_metrics_storage_kind=nfs
+openshift_metrics_storage_access_modes=['ReadWriteOnce']
+openshift_metrics_storage_nfs_directory=/exports
+openshift_metrics_storage_nfs_options='*(rw,root_squash)'
+openshift_metrics_storage_volume_name=metrics
+openshift_metrics_storage_volume_size=10Gi
+
+#openshift_metrics_storage_kind=
+#openshift_metrics_storage_access_modes=
+#openshift_metrics_storage_nfs_directory=
+#openshift_metrics_storage_nfs_options=
+#openshift_metrics_storage_volume_name=
+#openshift_metrics_storage_volume_size=
+#openshift_metrics_storage_labels=
+#openshift_metrics_cassandra_pvc_storage_class_name=
 
 
 openshift_metrics_hawkular_nodeselector=
@@ -167,34 +180,41 @@ openshift_prometheus_alertbuffer_cpu_limit=200m
 
 
 # Grafana
-openshift_grafana_node_selector=
-openshift_grafana_storage_type=
-openshift_grafana_pvc_size=
-openshift_grafana_node_exporter=
+openshift_grafana_node_selector={"role":"infra"}
+#openshift_grafana_storage_type=
+#openshift_grafana_pvc_size=
+#openshift_grafana_node_exporter=
 
 ########################
 # Cluster Logging
 ########################
 
-openshift_logging_install_logging=
-openshift_logging_install_eventrouter=
+openshift_logging_install_logging=true
+#openshift_logging_install_eventrouter=
 
-openshift_logging_storage_kind=
-openshift_logging_storage_access_modes=
-openshift_logging_storage_nfs_directory=
-openshift_logging_storage_nfs_options=
-openshift_logging_storage_volume_name=
-openshift_logging_storage_volume_size=
-openshift_logging_storage_labels=
-openshift_logging_es_pvc_storage_class_name=
+openshift_logging_storage_kind=nfs
+openshift_logging_storage_access_modes=['ReadWriteOnce']
+openshift_logging_storage_nfs_directory=/exports
+openshift_logging_storage_nfs_options='*(rw,root_squash)'
+openshift_logging_storage_volume_name=logging
+openshift_logging_storage_volume_size=10Gi
+
+#openshift_logging_storage_kind=
+#openshift_logging_storage_access_modes=
+#openshift_logging_storage_nfs_directory=
+#openshift_logging_storage_nfs_options=
+#openshift_logging_storage_volume_name=
+#openshift_logging_storage_volume_size=
+#openshift_logging_storage_labels=
+#openshift_logging_es_pvc_storage_class_name=
 openshift_logging_es_memory_limit=8Gi
 openshift_logging_es_cluster_size=1
 openshift_logging_curator_default_days=2
 
-openshift_logging_kibana_nodeselector=
-openshift_logging_curator_nodeselector=
-openshift_logging_es_nodeselector=
-openshift_logging_eventrouter_nodeselector=
+openshift_logging_kibana_nodeselector={"role":"infra"}
+openshift_logging_curator_nodeselector={"role":"infra"}
+openshift_logging_es_nodeselector={"role":"infra"}
+openshift_logging_eventrouter_nodeselector={"role":"infra"}
 
 ###########################################################################
 ### OpenShift Router and Registry Vars
@@ -204,7 +224,7 @@ openshift_logging_eventrouter_nodeselector=
 # openshift_router_selector='node-role.kubernetes.io/infra=true'
 # openshift_registry_selector='node-role.kubernetes.io/infra=true'
 
-openshift_hosted_router_replicas=
+openshift_hosted_router_replicas=2
 
 # openshift_hosted_router_certificate={"certfile": "/path/to/router.crt", "keyfile": "/path/to/router.key", "cafile": "/path/to/router-ca.crt"}
 
@@ -213,27 +233,33 @@ openshift_hosted_registry_pullthrough=true
 openshift_hosted_registry_acceptschema2=true
 openshift_hosted_registry_enforcequota=true
 
+openshift_hosted_registry_storage_kind=nfs
+openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
+openshift_hosted_registry_storage_nfs_directory=/exports
+openshift_hosted_registry_storage_nfs_options='*(rw,root_squash)'
+openshift_hosted_registry_storage_volume_name=registry
+openshift_hosted_registry_storage_volume_size=10Gi
 
-openshift_hosted_registry_storage_kind=
-openshift_hosted_registry_storage_access_modes=
-openshift_hosted_registry_storage_nfs_directory=
-openshift_hosted_registry_storage_nfs_options=
-openshift_hosted_registry_storage_volume_name=
-openshift_hosted_registry_storage_volume_size=
+#openshift_hosted_registry_storage_kind=
+#penshift_hosted_registry_storage_access_modes=
+#penshift_hosted_registry_storage_nfs_directory=
+#penshift_hosted_registry_storage_nfs_options=
+#penshift_hosted_registry_storage_volume_name=
+#penshift_hosted_registry_storage_volume_size=
 
 ###########################################################################
 ### OpenShift Service Catalog Vars
 ###########################################################################
 
 # default=true
-openshift_enable_service_catalog=
+openshift_enable_service_catalog=false
 
 # default=true
 template_service_broker_install=
 openshift_template_service_broker_namespaces=
 
 # default=true
-ansible_service_broker_install=true
+ansible_service_broker_install=false
 ansible_service_broker_local_registry_whitelist=['.*-apb$']
 
 ###########################################################################
