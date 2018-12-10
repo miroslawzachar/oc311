@@ -11,8 +11,6 @@ timeout=60
 ansible_user=ec2-user
 ansible_become=yes
 
-os_firewall_use_firewalld=True
-
 ###########################################################################
 ### OpenShift Basic Vars
 ###########################################################################
@@ -31,13 +29,14 @@ openshift_disable_check="disk_availability,memory_availability,docker_image_avai
 ##openshift_pkg_version=
 ##openshift_release=
 
-openshift_image_tag=v3.11.16
-openshift_release=3.11.16
-openshift_pkg_version=-3.11.16
+#openshift_image_tag=v3.11.16
+openshift_image_tag=v3.11
+openshift_release=3.11
+#openshift_pkg_version=-3.11
 
 
 # Node Groups
-openshift_node_groups=node-config-compute
+#openshift_node_groups='node-config-compute'
 # Configure node kubelet arguments. pods-per-core is valid in OpenShift Origin 1.3 or OpenShift Container Platform 3.3 and later. -> These  need to go into the above
 # openshift_node_kubelet_args={'pods-per-core': ['10'], 'max-pods': ['250'], 'image-gc-high-threshold': ['85'], 'image-gc-low-threshold': ['75']}
 
@@ -52,15 +51,15 @@ openshift_enable_olm=false
 ### OpenShift Registries Locations
 ###########################################################################
 
-oreg_url=registry.access.redhat.com/openshift3/ose-${component}:${version}
+oreg_url=registry.redhat.io/openshift3/ose-${component}:${version}
 #oreg_url=registry.redhat.io
-oreg_auth_user=5996273|mipam
-oreg_auth_password=eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIwYWNiYTg5OGUyMTY0ZGQyOTEzZWFjMTAwYWUyMDBlOCJ9.aAkKvR_NRShgXusrCAEq5ermrle7GwimIwy7cAUjdCEf3BjBSZauxx-pBwVGF59E3MNt3pzMCmKSzUy-2sAPYVN7vn2jKr0Pyd3x4i_kNFJ4Hq7eoNWpIYHwsD8L1xvdwJmMpK5JoHJN4knCG6Olra3yRlIU5ial3LnDQTwgRdPenuZa1VecrNpXvrU3QjNCE1F1Q2WHv2EnQxZZNR3K62MYFJNS6sLaCk2ncCjoriylS6J0c8Vce6cL4RaM8K7C3oGTDa8qOELpg5Iix_zLVqcw6tvQYvAq9i1agdExfNEezXL9ldfBrbDHCwPgwBt6fzWyM0zlWz4JdRUD0ZE7KW0DngMIuMY2HPyTHDLlFCwFFxjeyLR6MbiVSqnSTiajwry0Mnqm9C7BuvdLhpgj8as-Ukeqgbm2TTMV6hQINeB9ca-3kW-ZxDpIKThh3cMshQisVypu91l-PsDDTyebOF9GzfJFsTAYqSebWo8S0A4usRL4JHZWxsqLEF4nZQuckY9TRbdpI2OJfQN12f5j97U1MfMO2MGneXyRsM3pPyWwcE8sqqiKqay5lq7Hcc6eoFHUIjrgMB21SCuOZKooDZYlER0QorYAjv_a2HSyBGJ3wHVVV1YJDDZuBDFgYHRxnyxf_4nU2u3jJF6SDV0voskJUW2hKgUKaowphZzk5gg
+oreg_auth_user='11999409|oc311'
+oreg_auth_password='eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIyYzBkMDdiY2EwYzg0ZTFkODkwNzE4MWUxMTFlMDY0OSJ9.gDwSCQ3wg6HfafiFjU5nDQ6IPU7RQWap8kKtDmiD5RRqIECJlokDVkDyI6X0cyjpD9DbE6jGsDPriPpfRcqAFRRbkFNkHLaVCLqZEhTa5eG4zEUDgolE797TM2H6sYKrgTKGldPLzzFDJUyNOymgYe6BFtKlDDsTHmVdSBJ4MOKVXaBYSHx8ajhafiystK8iSUsW8oXn7QSXoWm359bVRXmifMEAA0TbbCrP4fUk6NpMKMoeldLYKL1ADq5SAuQx-2zvy7-YvhGHc_1xPJtjoeWDHP2Asv5t1eCvqAtDwlnb6-1eVzpIzWvWfRfuXmRQcmrwuKKVirJSxhexpOtPrN2vfvAyZ0TrpB-JikqqUbQFlHXRqXMyX4pPQkRkU_Wxq79pIsSlVwq_pveh5boodhSRsgS_r5MMhb_lN_FETjJEIZE0WjN7Y8AdhgmFV5x0FeWAAt1Kulwkh1A6O_DbTxjnh0Z7CXUMiC2bvOxS1aKevqUVC2NUnwJEMt6X39OFFbV3W5ayYF-AUOJT1cQOdvB-rWlM3vnGFFtVLa3DHFx-FOsTt-aMXq6E7MTUmlIhjnREVvt5ZSyKMvJcZGHmNowZWEu8Y7zXJc-mTTsJZMrxd6IJlaF-WUfwaYeTcFgwkpG3VfxrvAf2_fy80Qm3jC527xW-i466OfkFaQZ3vf0'
 
 # For Operator Framework Images
-openshift_additional_registry_credentials=true
+#openshift_additional_registry_credentials=true
 
-openshift_examples_modify_imagestreams=true
+#openshift_examples_modify_imagestreams=true
 
 
 # Set this line to enable NFS
@@ -74,7 +73,7 @@ openshift_master_api_port=8443
 openshift_master_console_port=8443
 
 #Default:  openshift_master_cluster_method=native
-openshift_master_cluster_hostname=master1.fb4c.example.opentlc.com
+#openshift_master_cluster_hostname=master1.fb4c.example.opentlc.com
 openshift_master_cluster_public_hostname=loadbalancer.fb4c.example.opentlc.com
 openshift_master_default_subdomain=apps.fb4c.example.opentlc.com
 #openshift_master_ca_certificate=
@@ -108,15 +107,15 @@ os_sdn_network_plugin_name='redhat/openshift-ovs-subnet'
 #openshift_master_identity_providers=
 
 # Just LDAP
-openshift_master_identity_providers=[{'name': 'ldap', 'challenge': 'true', 'login': 'true', 'kind': 'LDAPPasswordIdentityProvider','attributes': {'id': ['dn'], 'email': ['mail'], 'name': ['cn'], 'preferredUsername': ['uid']}, 'bindDN': 'uid=admin,cn=users,cn=accounts,dc=shared,dc=example,dc=opentlc,dc=com', 'bindPassword': 'r3dh4t1!', 'ca': '/etc/origin/master/ipa-ca.crt','insecure': 'false', 'url': 'ldaps://ipa.shared.example.opentlc.com:636/cn=users,cn=accounts,dc=shared,dc=example,dc=opentlc,dc=com?uid?sub?(memberOf=cn=ocp-users,cn=groups,cn=accounts,dc=shared,dc=example,dc=opentlc,dc=com)'}]
+#openshift_master_identity_providers=[{'name': 'ldap', 'challenge': 'true', 'login': 'true', 'kind': 'LDAPPasswordIdentityProvider','attributes': {'id': ['dn'], 'email': ['mail'], 'name': ['cn'], 'preferredUsername': ['uid']}, 'bindDN': 'uid=admin,cn=users,cn=accounts,dc=shared,dc=example,dc=opentlc,dc=com', 'bindPassword': 'r3dh4t1!', 'ca': '/etc/origin/master/ipa-ca.crt','insecure': 'false', 'url': 'ldaps://ipa.shared.example.opentlc.com:636/cn=users,cn=accounts,dc=shared,dc=example,dc=opentlc,dc=com?uid?sub?(memberOf=cn=ocp-users,cn=groups,cn=accounts,dc=shared,dc=example,dc=opentlc,dc=com)'}]
 
 # Just HTPASSWD
-# openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 
 # LDAP and HTPASSWD dependencies
 
-#openshift_master_htpasswd_file=/root/htpasswd.openshift
-openshift_master_ldap_ca_file=/root/ipa-ca.crt
+openshift_master_htpasswd_file=/root/htpasswd.openshift
+#openshift_master_ldap_ca_file=/root/ipa-ca.crt
 
 
 ###########################################################################
