@@ -11,6 +11,15 @@ timeout=60
 ansible_user=ec2-user
 ansible_become=yes
 
+##GLUSTER
+openshift_storage_glusterfs_namespace=app-storage
+openshift_storage_glusterfs_storageclass=true
+openshift_storage_glusterfs_storageclass_default=false
+openshift_storage_glusterfs_block_deploy=true
+openshift_storage_glusterfs_block_host_vol_size=100
+openshift_storage_glusterfs_block_storageclass=true
+openshift_storage_glusterfs_block_storageclass_default=false
+
 ###########################################################################
 ### OpenShift Basic Vars
 ###########################################################################
@@ -277,6 +286,7 @@ masters
 etcd
 nodes
 nfs
+glusterfs
 
 [lb]
 loadbalancer.fb4c.internal
@@ -309,4 +319,9 @@ node3.fb4c.internal openshift_node_group_name='node-config-compute' openshift_no
 
 [nfs]
 support1.fb4c.internal
+
+[glusterfs]
+node1.fb4c.internal glusterfs_devices='[ "/dev/xvdb1" ]' 
+node2.fb4c.internal glusterfs_devices='[ "/dev/xvdb1" ]' 
+node3.fb4c.internal glusterfs_devices='[ "/dev/xvdb1" ]' 
 
