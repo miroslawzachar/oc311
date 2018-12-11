@@ -131,7 +131,7 @@ openshift_master_ldap_ca_file=/root/ipa-ca.crt
 #openshift_prometheus_namespace={"node-role.kubernetes.io/infra":"true"}
 #openshift_prometheus_node_selector={"node-role.kubernetes.io/infra":"true"}
 
-openshift_cluster_monitoring_operator_install=false
+openshift_cluster_monitoring_operator_install=true
 
 
 ########################
